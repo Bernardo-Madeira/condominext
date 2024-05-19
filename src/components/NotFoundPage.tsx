@@ -15,7 +15,7 @@ export default function NotFoundPage(){
 
       <span className="text-xl">Página não encontrada</span>
 
-      <Link to={'/'} className="bg-gray-200 text-gray-900 px-4 py-1 text-lg font-bold rounded-sm">Voltar</Link>
+      <Link to={'/login'} className="bg-gray-200 text-gray-900 px-4 py-1 text-lg font-bold rounded-sm">Voltar</Link>
 
     </div>
   )

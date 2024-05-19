@@ -12,11 +12,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
     <BrowserRouter>
       <Routes>
-        
-        <Route path="/" element={<Login />} />
+
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFoundPage />} />
 
-        <Route path="/layout" element={<Layout />} >
+        <Route path="/" element={<Layout />} >
 
         </Route>
 

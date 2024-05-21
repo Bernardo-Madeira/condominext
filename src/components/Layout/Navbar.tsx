@@ -4,6 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { IoAdd } from "react-icons/io5";
 import { MdDesignServices } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -21,7 +22,7 @@ export default function Navbar() {
       <ul className="flex flex-col w-full text-2xl gap-6">
         <li className="flex items-center gap-3 cursor-pointer transition-colors hover:text-gray-400"><MdDesignServices/>Meus Serviços</li>
         <li className="flex items-center gap-3 cursor-pointer transition-colors hover:text-gray-400"><FaCartShopping className="text-xl"/>Solicitações</li>
-        <li className="flex items-center gap-3 cursor-pointer transition-colors hover:text-gray-400"><IoAdd />Criar Serviço</li>
+        <Link to={"/criarServico"}><li className="flex items-center gap-3 cursor-pointer transition-colors hover:text-gray-400"><IoAdd />Criar Serviço</li></Link>
       </ul>
 
     </div>

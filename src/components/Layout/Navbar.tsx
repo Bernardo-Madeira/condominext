@@ -8,21 +8,21 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <div className="h-full bg-gray-800 w-1/4 max-w-96 pt-12 p-4 flex flex-col items-center justify-between font-Montserrat text-gray-50">
+    <div className="flex flex-col items-center justify-between w-1/4 h-full p-4 pt-12 bg-gray-800 max-w-96 font-Montserrat text-gray-50">
 
       {/* User */}
-      <div className="flex items-center gap-4 flex-col">
-        <div className="w-fit p-2 flex items-center justify-center rounded-full bg-gray-50">
+      <div className="flex flex-col items-center gap-4">
+        <div className="flex items-center justify-center p-2 rounded-full w-fit bg-gray-50">
           <FaUser className="text-4xl text-gray-900" />
         </div>
         <span className="text-2xl">Fulano da Silva</span>
       </div>
 
       {/* Options */}
-      <ul className="flex flex-col w-full text-2xl gap-6">
-        <li className="flex items-center gap-3 cursor-pointer transition-colors hover:text-gray-400"><MdDesignServices/>Meus Serviços</li>
-        <li className="flex items-center gap-3 cursor-pointer transition-colors hover:text-gray-400"><FaCartShopping className="text-xl"/>Solicitações</li>
-        <Link to={"/criarServico"}><li className="flex items-center gap-3 cursor-pointer transition-colors hover:text-gray-400"><IoAdd />Criar Serviço</li></Link>
+      <ul className="flex flex-col w-full gap-6 text-2xl">
+        <li className="flex items-center gap-3 transition-colors cursor-pointer hover:text-gray-400"><MdDesignServices/>Meus Serviços</li>
+        <Link to={"/solicitacoes"}><li className="flex items-center gap-3 transition-colors cursor-pointer hover:text-gray-400"><FaCartShopping className="text-xl"/>Solicitações</li></Link>
+        <Link to={"/criarServico"}><li className="flex items-center gap-3 transition-colors cursor-pointer hover:text-gray-400"><IoAdd />Criar Serviço</li></Link>
       </ul>
 
     </div>

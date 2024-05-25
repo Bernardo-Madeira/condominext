@@ -1,12 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './setup/index.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Login from './features/Login'
-import NotFoundPage from './components/NotFoundPage'
 import Layout from './components/Layout'
-import Home from './features/Home'
+import NotFoundPage from './components/NotFoundPage'
 import CriarServico from './features/CriarServico'
+import Home from './features/Home'
+import Login from './features/Login'
+import ServicoSelecionado from './features/ServicoSelecionado'
+import Solicitacoes from './features/Solicitacoes/registros'
+import './setup/index.css'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -21,7 +23,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/" element={<Layout />} >
 
           <Route path='/home' element={<Home/>}/>
+          <Route path='/servico/:idServico' element={<ServicoSelecionado/>}/>
           <Route path='/criarServico' element={<CriarServico/>}/>
+          <Route path='/solicitacoes' element={<Solicitacoes/>}/>
 
         </Route>
 

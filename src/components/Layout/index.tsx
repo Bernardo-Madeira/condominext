@@ -15,7 +15,7 @@ export default function Layout() {
 
         <Navbar/>
 
-        <div className="bg-gray-950 w-full">
+        <div className="w-full overflow-y-scroll bg-gray-950">
           <Outlet/>
         </div>
 

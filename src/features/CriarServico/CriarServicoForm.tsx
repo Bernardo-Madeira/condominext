@@ -7,7 +7,7 @@ import { FormProvider, useForm } from "react-hook-form"
 
 
 
-export default function CriarServicoForm({ onSubmit }: { onSubmit: any }) {
+export default function CriarServicoForm() {
 
 
   const form = useForm({
@@ -21,7 +21,7 @@ export default function CriarServicoForm({ onSubmit }: { onSubmit: any }) {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-12 gap-12">
+      <form onSubmit={() => { }} className="grid grid-cols-12 gap-12">
 
         <div className="grid grid-cols-12 col-span-12 gap-12 mt-12">
 
@@ -48,14 +48,15 @@ export default function CriarServicoForm({ onSubmit }: { onSubmit: any }) {
               <FormItem className="col-span-4">
                 <FormLabel className=" text-gray-50">Categoria do Serviço</FormLabel>
                 <FormControl>
-                  <Select>
+                  <Select {...field}>
                     <SelectTrigger >
-                      <SelectValue placeholder="Theme" />
+                      <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="dark">Dark</SelectItem>
-                      <SelectItem value="system">System</SelectItem>
+                      <SelectItem value="tipo1">Tipo 1</SelectItem>
+                      <SelectItem value="tipo2">Tipo 2</SelectItem>
+                      <SelectItem value="tipo3">Tipo 3</SelectItem>
+                      <SelectItem value="tipo4">Tipo 4</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -74,7 +75,7 @@ export default function CriarServicoForm({ onSubmit }: { onSubmit: any }) {
             <FormItem className="col-span-8">
               <FormLabel className=" text-gray-50">Descrição do Serviço</FormLabel>
               <FormControl>
-                <Textarea className="resize-none min-h-40" />
+                <Textarea {...field} className="resize-none min-h-40" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,7 +89,7 @@ export default function CriarServicoForm({ onSubmit }: { onSubmit: any }) {
             <FormItem className="col-span-4">
               <FormLabel className="text-gray-50">Imagens de Apoio</FormLabel>
               <FormControl>
-                <Input type="file" multiple/>
+                <Input {...field} type="file" multiple />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -97,13 +98,12 @@ export default function CriarServicoForm({ onSubmit }: { onSubmit: any }) {
 
 
 
-        {/*         <div className="text-center">
-          <Button type="submit" className="px-12 mt-4 text-lg">Entrar</Button>
-        </div> */}
+        <div className="text-center">
+          <Button type="submit" className="px-12 mt-4 text-lg" variant={"secondary"}>Entrar</Button>
+        </div>
+
       </form>
     </FormProvider>
   )
 
-
 }
-

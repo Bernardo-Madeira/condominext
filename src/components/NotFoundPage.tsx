@@ -5,7 +5,7 @@ export default function NotFoundPage(){
 
   return(
 
-    <div className="w-full h-screen flex flex-col text-gray-50 justify-center items-center bg-gray-900 gap-4">
+    <div className="flex flex-col items-center justify-center w-full h-screen gap-4 bg-gray-900 text-gray-50">
 
       <div className="flex items-center font-bold text-8xl">
         <span>4</span>
@@ -15,7 +15,7 @@ export default function NotFoundPage(){
 
       <span className="text-xl">Página não encontrada</span>
 
-      <Link to={'/login'} className="bg-gray-200 text-gray-900 px-4 py-1 text-lg font-bold rounded-sm">Voltar</Link>
+      <Link to={'/login'} className="px-4 py-1 text-lg font-bold text-gray-900 bg-gray-200 rounded-sm">Voltar</Link>
 
     </div>
   )

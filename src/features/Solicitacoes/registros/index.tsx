@@ -3,6 +3,7 @@ import { getAllSolicitacoes } from "../solicitacoesService";
 import { TAsolicitacao } from "../types";
 import { DataTable } from "@/components/DataTAble";
 import { columns } from "./columns";
+import Loading from "@/components/Loading";
 
 
 export default function Solicitacoes() {
@@ -14,7 +15,6 @@ export default function Solicitacoes() {
     async function getSolicitacoes(userId: string) {
       setLoading(true)
       const res = await getAllSolicitacoes(userId)
-      console.log(res)
       setSolicitacoes(res)
       setLoading(false)
     }
@@ -31,7 +31,7 @@ export default function Solicitacoes() {
       {
         loading
         ?
-        <div className="mt-6 text-xl animate-pulse text-gray-50">Carregando...</div>
+        <div className="flex items-center justify-center w-full h-64"><Loading /></div>
         :
         <DataTable
           columns={columns}

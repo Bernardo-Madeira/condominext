@@ -6,6 +6,7 @@ import { ServicoSelecionadoType } from "./types";
 import { IoMdMail } from "react-icons/io";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
+import Loading from "@/components/Loading";
 
 const getDataService = async (id: string) => {
   return await getUniqueService(id);
@@ -26,7 +27,7 @@ export default function ServicoSelecionado() {
   }, [idServico]);
 
   if (loading) {
-    return <div className="p-12"><p className="text-gray-50">Carregando...</p></div>;
+    return <div className="flex items-center justify-center w-full h-64"><Loading /></div>
   }
 
   if (!servico) {

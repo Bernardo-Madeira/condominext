@@ -9,7 +9,7 @@ import Login from './features/Login'
 import ServicoSelecionado from './features/ServicoSelecionado'
 import Solicitacoes from './features/Solicitacoes/registros'
 import './setup/index.css'
-import MeusServicos from './features/MeusServicos'
+import UsuariosCondominio from './features/UsuariosCondominio/registros'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -27,7 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path='/servico/:idServico' element={<ServicoSelecionado />} />
           <Route path='/criarServico' element={<CriarServico />} />
           <Route path='/solicitacoes' element={<Solicitacoes />} />
-          <Route path='/meusServicos' element={<MeusServicos />} />
+          <Route path='/usuarios' element={<UsuariosCondominio />} />
 
         </Route>
 

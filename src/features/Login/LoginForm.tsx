@@ -50,7 +50,7 @@ export default function LoginForm({ onSubmit, loading }: LoginFormProps) {
         />
 
         <div className="text-center">
-        <Button disabled={loading} type="submit" className="text-lg px-12 mt-4">Entrar</Button>
+        <Button disabled={loading} type="submit" className="px-12 mt-4 text-lg">Entrar</Button>
         </div>
       </form>
     </FormProvider>

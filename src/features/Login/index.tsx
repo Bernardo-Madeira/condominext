@@ -5,6 +5,7 @@ import { UserFormType } from "./LoginType"
 import loginUser, { LoginResponse } from "./LoginService"
 
 export default function Login() {
+  
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate() // Obtém a função navigate para navegação
 
@@ -29,19 +30,19 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 grid grid-cols-12">
-      <div className="h-full col-span-8 flex justify-center items-center predio-background">
-        <span className="font-Montserrat font-bold text-gray-200 text-6xl">
-          Condomi<span className="text-gray-700 font-normal">Next</span>
+    <div className="grid min-h-screen grid-cols-12 bg-gray-950">
+      <div className="flex items-center justify-center h-full col-span-8 predio-background">
+        <span className="text-6xl font-bold text-gray-200 font-Montserrat">
+          Condomi<span className="font-normal text-gray-700">Next</span>
         </span>
       </div>
-      <div className="col-span-4 bg-gray-100 p-12 gap-12 h-full flex justify-center flex-col items-center">
-        <div className="flex items-center gap-8 w-full">
+      <div className="flex flex-col items-center justify-center h-full col-span-4 gap-12 p-12 bg-gray-100">
+        <div className="flex items-center w-full gap-8">
           <div className="w-full bg-gray-950 p-0.5 rounded-full"></div>
-          <span className="font-Montserrat text-5xl">Login</span>
+          <span className="text-5xl font-Montserrat">Login</span>
           <div className="w-full bg-gray-950 p-0.5 rounded-full"></div>
         </div>
-        <div className="p-2 w-full flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center w-full gap-4 p-2">
           <LoginForm onSubmit={handleLoginSubmit} loading={loading} />
         </div>
       </div>

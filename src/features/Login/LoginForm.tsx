@@ -42,7 +42,8 @@ export default function LoginForm() {
       const response = await usuarioLogin(data)
 
       if (response.UsuarioID) {
-        dispatch(login(response.data))
+        dispatch(login(response))
+        console.log(response)
         navigate('/home')
       } else {
         alert(response.message)

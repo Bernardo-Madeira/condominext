@@ -1,32 +1,37 @@
-import { useNavigate } from "react-router-dom" // Importa o useNavigate do React Router
-import LoginForm from "./LoginForm"
-import { useState } from "react"
-import { UserFormType } from "./LoginType"
-import loginUser, { LoginResponse } from "./LoginService"
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import LoginForm from './LoginForm';
+import { usuarioLogin } from '@/services/usuarioService';
+import { login } from '@/store';
 
 export default function Login() {
-  
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate() // Obtém a função navigate para navegação
 
-  const handleLoginSubmit = async (data: UserFormType) => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+
+  const handleLoginSubmit = async (data: any) => {
+
     setLoading(true)
 
     try {
-      const response: LoginResponse = await loginUser({ data })
 
-      if (response.success) {
-        console.log('Login bem-sucedido:', response.data)
-        // Usar o REDUX para salvar os dados do usuário logado
-        navigate("/home")
+      const response = await usuarioLogin({ Email: "admin@admin.com", Senha: "admin" })
+
+      if (response.UsuarioID) {
+        dispatch(login(response.data))
+        navigate('/home')
       } else {
-        console.error('Erro durante o login:', response.error)
+        alert("Usuário não encontrado")
       }
-    } catch (error) {
-      console.error('Erro durante o login:', error)
+    } catch (error: any) {
+      alert(error.message)
     } finally {
       setLoading(false)
     }
+
   }
 
   return (
@@ -43,9 +48,9 @@ export default function Login() {
           <div className="w-full bg-gray-950 p-0.5 rounded-full"></div>
         </div>
         <div className="flex flex-col items-center w-full gap-4 p-2">
-          <LoginForm onSubmit={handleLoginSubmit} loading={loading} />
+          <LoginForm />
         </div>
       </div>
     </div>
-  )
+  );
 }

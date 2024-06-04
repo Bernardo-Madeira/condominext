@@ -7,6 +7,7 @@ import { IoMdMail } from "react-icons/io";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
 import Loading from "@/components/Loading";
+import { Button } from "@/components/ui/button";
 
 const getDataService = async (id: string) => {
   return await getUniqueService(id);
@@ -65,6 +66,8 @@ export default function ServicoSelecionado() {
             <FaHouse/>
             <span className="text-xl font-thin">{servico.Unidade}</span>
           </div>
+
+          <Button variant={"secondary"} className="px-12 mt-4 text-lg font-bold w-fit">Solicitar</Button>
 
         </div>
 

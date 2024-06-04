@@ -15,7 +15,6 @@ export default function CriarServicoForm() {
       titulo: '',
       categoria: '',
       descricao: '',
-      imagens: []
     },
   })
 
@@ -53,12 +52,58 @@ export default function CriarServicoForm() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="tipo1">Tipo 1</SelectItem>
-                      <SelectItem value="tipo2">Tipo 2</SelectItem>
-                      <SelectItem value="tipo3">Tipo 3</SelectItem>
-                      <SelectItem value="tipo4">Tipo 4</SelectItem>
+                      <SelectItem value="ID01">Conserto de Eletrônicos</SelectItem>
+                      <SelectItem value="ID02">Pintura de Paredes</SelectItem>
                     </SelectContent>
                   </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="Unidade"
+            render={({ field }) => (
+              <FormItem className="col-span-4">
+                <FormLabel className=" text-gray-50">Unidade</FormLabel>
+                <FormControl>
+                  <Select {...field} disabled={true} >
+                    <SelectTrigger >
+                      <SelectValue placeholder="BLC 1, APT 200"></SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="Telefone"
+            render={({ field }) => (
+              <FormItem className="col-span-4">
+                <FormLabel className=" text-gray-50">Telefone</FormLabel>
+                <FormControl>
+                  <Input placeholder="(21)99999-9999" disabled={true} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="Email"
+            render={({ field }) => (
+              <FormItem className="col-span-4">
+                <FormLabel className=" text-gray-50">Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="admin@admin.com" disabled={true} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -72,7 +117,7 @@ export default function CriarServicoForm() {
           control={form.control}
           name="descricao"
           render={({ field }) => (
-            <FormItem className="col-span-8">
+            <FormItem className="col-span-12">
               <FormLabel className=" text-gray-50">Descrição do Serviço</FormLabel>
               <FormControl>
                 <Textarea {...field} className="resize-none min-h-40" />
@@ -82,24 +127,12 @@ export default function CriarServicoForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="descricao"
-          render={({ field }) => (
-            <FormItem className="col-span-4">
-              <FormLabel className="text-gray-50">Imagens de Apoio</FormLabel>
-              <FormControl>
-                <Input {...field} type="file" multiple />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
 
 
-        <div className="text-center">
-          <Button type="submit" className="px-12 mt-4 text-lg" variant={"secondary"}>Entrar</Button>
+
+        <div className="col-span-12 text-center">
+          <Button type="submit" className="px-12 mt-4 text-lg" variant={"secondary"}>Criar</Button>
         </div>
 
       </form>

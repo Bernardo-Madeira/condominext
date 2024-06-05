@@ -26,3 +26,26 @@ export const usuarioLogin = async (body: {Email: string, Senha: string}) => {
   const result = await response.json()
   return result
 }
+
+export const usuarioUpdate = async (body: any) => {
+  const response = await fetch(`${BASEURL}/usuario/update`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body)
+  })
+  const result = await response.json()
+  return result
+}
+
+export const usuarioShow = async (UsuarioID: string) => {
+  const response = await fetch(`${BASEURL}/usuario/show/${UsuarioID}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  const result = await response.json()
+  return result
+}

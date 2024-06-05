@@ -64,7 +64,7 @@ export default function LoginForm() {
           name="Email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Usuário</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input type="email" {...field} />
               </FormControl>

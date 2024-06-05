@@ -29,7 +29,7 @@ export default function Navbar() {
       {/* Options */}
       <ul className="flex flex-col w-full gap-6 text-xl">
         {/* <Link to={"/meusServicos"}><li className="flex items-center gap-3 transition-colors cursor-pointer hover:text-gray-400"><FaPersonDigging />Meus Serviços</li></Link> */}
-        <Link to={"/solicitacoes"}><li className="flex items-center gap-3 transition-colors cursor-pointer hover:text-gray-400"><FaCartShopping className="text-xl" />Pedidos</li></Link>
+        <Link to={"/pedidos"}><li className="flex items-center gap-3 transition-colors cursor-pointer hover:text-gray-400"><FaCartShopping className="text-xl" />Pedidos</li></Link>
         <Link to={"/home"}><li className="flex items-center gap-3 transition-colors cursor-pointer hover:text-gray-400"><MdDesignServices className="text-xl" />Serviços</li></Link>
         <Link to={"/criarServico"}><li className="flex items-center gap-3 transition-colors cursor-pointer hover:text-gray-400"><IoAdd />Criar Serviço</li></Link>
         {

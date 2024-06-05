@@ -14,12 +14,11 @@ import {
 import { FaEye } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { TAsolicitacao } from "../types"
 
 
-export const columns: ColumnDef<TAsolicitacao>[] = [
+export const columns: ColumnDef[] = [
   {
-    accessorKey: "nomeServico",
+    accessorKey: "Nome",
     header: ({ column }) => {
       return (
         <Button
@@ -33,20 +32,29 @@ export const columns: ColumnDef<TAsolicitacao>[] = [
     },
   },
   {
-    accessorKey: "unidade",
-    header: "UNIDADE"
+    accessorKey: "Categoria",
+    header: "CATEGORIA"
   },
   {
-    accessorKey: "telefone",
-    header: "TELEFONE"
-  },
-  {
-    accessorKey: "email",
-    header: "EMAIL"
-  },
-  {
-    accessorKey: "status",
+    accessorKey: "Status",
     header: "STATUS"
+  },
+  {
+    accessorKey: "DataCriacao",
+    header: "CRIAÇÃO",
+    cell: ({ row }) => {
+      const { original } = row
+      const data = new Date(original.DataCriacao)
+      // Extrair o dia, mês e ano
+      const dia = data.getUTCDate();
+      const mes = data.getUTCMonth() + 1;
+      const ano = data.getUTCFullYear();
+
+      const dataFormatada = `${dia < 10 ? '0' : ''}${dia}/${mes < 10 ? '0' : ''}${mes}/${ano}`
+
+      return dataFormatada
+    }
+
   },
   {
     accessorKey: "actions",
@@ -55,7 +63,7 @@ export const columns: ColumnDef<TAsolicitacao>[] = [
 
       const [open, setOpen] = useState(false)
 
-      const { original: solicitacao } = row
+      const { original } = row
 
       const n = useNavigate()
 
@@ -70,8 +78,11 @@ export const columns: ColumnDef<TAsolicitacao>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-              className="cursor-pointer"
-                onClick={() => n(`../servico/${solicitacao.idSolicitacao}`)}
+                className="cursor-pointer"
+                onClick={() => {
+                  n(`/servico/${original.ServicoID}`)
+    
+                }}
                 asChild
               >
                 <Button variant={'ghost'} className="w-full"><FaEye className="mr-2" />Abrir</Button>

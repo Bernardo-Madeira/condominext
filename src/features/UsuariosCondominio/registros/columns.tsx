@@ -14,23 +14,18 @@ import {
 import { FaTrash } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { usuarioType } from "../types/usuarioType"
+import { usuarioType } from "@/types/usuarioType"
+import { usuarioDestroy } from "@/services/usuarioService"
 
 
 export const columns: ColumnDef<usuarioType>[] = [
   {
-    accessorKey: "Unidade",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Unidade
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      )
-    },
+    accessorKey: "Bloco",
+    header: "BLOCO"
+  },
+  {
+    accessorKey: "Apartamento",
+    header: "APARTAMENTO"
   },
   {
     accessorKey: "Telefone",
@@ -41,17 +36,13 @@ export const columns: ColumnDef<usuarioType>[] = [
     header: "EMAIL"
   },
   {
-    accessorKey: "DataRegistro",
-    header: "CRIAÇÃO"
-  },
-  {
     accessorKey: "actions",
     header: () => <div className="text-right">Ações</div>,
     cell: ({ row }) => {
 
       const [open, setOpen] = useState(false)
 
-      const { original: solicitacao } = row
+      const { original } = row
 
       const n = useNavigate()
 
@@ -66,8 +57,11 @@ export const columns: ColumnDef<usuarioType>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-              className="cursor-pointer"
-                onClick={() => {}}/* DELETAR O USUARIO */
+                className="cursor-pointer"
+                onClick={() => { 
+                  console.log(original)
+                  usuarioDestroy(original.UsuarioID)
+                }}
                 asChild
               >
                 <Button variant={'ghost'} className="w-full"><FaTrash className="mr-2" />Excluir</Button>

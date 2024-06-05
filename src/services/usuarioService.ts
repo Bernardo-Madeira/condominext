@@ -49,3 +49,15 @@ export const usuarioShow = async (UsuarioID: string) => {
   const result = await response.json()
   return result
 }
+
+export const usuarioDestroy = async (UsuarioID: string) => {
+  const response = await fetch(`${BASEURL}/usuario/destroy`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({UsuarioID: UsuarioID})
+  })
+  const result = await response.json()
+  return result
+}

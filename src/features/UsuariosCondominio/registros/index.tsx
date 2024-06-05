@@ -1,10 +1,17 @@
 import { DataTable } from "@/components/DataTAble";
 import { useEffect, useState } from "react";
 import { columns } from "./columns";
+import { usuarioIndex } from "@/services/usuarioService";
 
 export default function UsuariosCondominio() {
 
   const [usuarios, setUsuarios] = useState([])
+
+  useEffect(() => {
+    usuarioIndex().then(res => {
+      setUsuarios(res)
+    })
+  })
 
 
   return (

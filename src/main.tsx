@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route path="/home" element={<Home />} />
-            <Route path="/servico/:idServico" element={<ServicoSelecionado />} />
+            <Route path="/servico/:ServicoID" element={<ServicoSelecionado />} />
             <Route path="/criarServico" element={<CriarServico />} />
             <Route path="/solicitacoes" element={<Solicitacoes />} />
             <Route path="/usuarios" element={<UsuariosCondominio />} />

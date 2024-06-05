@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react"
-import { getAllServicesByUser } from "../Servico/servicoService"
-import { ServicoType } from "../Servico/type"
 
 import { Link } from "react-router-dom"
 
 import { IoIosStarOutline, IoIosStarHalf, IoIosStar } from "react-icons/io"
 import { FaSearch } from "react-icons/fa"
-import React from "react"
 import Loading from "@/components/Loading"
+import { servicoIndex } from "@/services/servicoService"
 
 export const StarRating = ({ rating, className = '' }: { rating: number, className: string }) => {
 
@@ -40,17 +38,13 @@ export const StarRating = ({ rating, className = '' }: { rating: number, classNa
 
 export default function Home() {
 
-  const [services, setServices] = useState<ServicoType[]>([])
-  const [loading, setLoading] = useState(true)
+  const [services, setServices] = useState<[]>([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setLoading(true)
-    const getAllServices = async (id: string) => {
-      const res = await getAllServicesByUser(id)
-      setServices(res)
-      setLoading(false)
-    }
-    getAllServices("1")
+    servicoIndex().then(res => setServices(res))
+    setLoading(false)
   }, [])
 
   return (
@@ -69,22 +63,22 @@ export default function Home() {
           loading ?
             <div className="flex items-center justify-center w-full h-64"><Loading /></div>
             :
-            services.map((service, index) => (
+            services && services.map(({ServicoID, Nome, Descricao, Bloco, Apartamento, TotalAvaliacoes, AvaliacaoMedia}, index) => (
 
-              <Link key={index} to={`/servico/${service.IdServico}`}>
+              <Link key={index} to={`/servico/${ServicoID}`}>
 
                 <div key={index} className="flex flex-col gap-3 p-3 bg-white rounded-lg shadow-lg min-h-52 max-h-52 w-80">
 
-                  <span className="text-2xl font-bold text-gray-700 font-Montserrat">{service.Titulo}</span>
+                  <span className="text-2xl font-bold text-gray-700 font-Montserrat">{Nome}</span>
 
-                  <p className="text-sm w-[90%] h-24 max-h-24 text-justify text-gray-500 overflow-hidden">{service.Descricao}</p>
+                  <p className="text-sm w-[90%] h-24 max-h-24 text-justify text-gray-500 overflow-hidden">{Descricao}</p>
 
                   <div className="flex items-center justify-between">
 
-                    <span className="font-bold font-Montserrat">{service.Moradia}</span>
+                    <span className="font-bold font-Montserrat">{`BL ${Bloco}, APT ${Apartamento}`}</span>
                     <div className="flex items-center gap-1">
-                      <span className="text-xl italic font-thin">{service.TotalAvaliacoes}</span>
-                      <StarRating rating={service.Avaliacao} />
+                      <span className="text-xl italic font-thin">{TotalAvaliacoes}</span>
+                      <StarRating rating={AvaliacaoMedia || 0} />
                     </div>
 
                   </div>

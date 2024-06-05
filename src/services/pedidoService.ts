@@ -27,3 +27,15 @@ export const pedidoIndex = async (MoradorID: string) => {
   const result = await response.json()
   return result
 }
+
+export const servicoPrestador = async (PrestadorID: string) => {
+  const response = await fetch(`${BASEURL}/pedido/prestador`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({PrestadorID: PrestadorID})
+  })
+  const result = await response.json()
+  return result
+}

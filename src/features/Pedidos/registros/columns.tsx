@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { FaEye } from "react-icons/fa"
+import { FaEye, FaStar } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 
@@ -81,11 +81,20 @@ export const columns: ColumnDef[] = [
                 className="cursor-pointer"
                 onClick={() => {
                   n(`/servico/${original.ServicoID}`)
-    
                 }}
                 asChild
               >
                 <Button variant={'ghost'} className="w-full"><FaEye className="mr-2" />Abrir</Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => {
+                  /* Abrir modal para avaliar */
+                  /* Verificar se já não foi avaliado */
+                }}
+                asChild
+              >
+                <Button variant={'ghost'} className="w-full"><FaStar className="mr-2" />Avaliar</Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

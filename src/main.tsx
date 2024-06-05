@@ -14,6 +14,7 @@ import UsuariosCondominio from './features/UsuariosCondominio/registros';
 import './setup/index.css';
 import { store } from './store';
 import Pedidos from './features/Pedidos/registros';
+import MeusServicos from './features/MeusServicos';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -29,6 +30,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path="/pedidos" element={<Pedidos />} />
             <Route path="/usuarios" element={<UsuariosCondominio />} />
             <Route path="/usuarioArea" element={<UsuarioArea />} />
+            <Route path="/meusServicos" element={<MeusServicos />} />
           </Route>
         </Routes>
       </BrowserRouter>

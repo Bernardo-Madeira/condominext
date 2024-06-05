@@ -15,6 +15,7 @@ import './setup/index.css';
 import { store } from './store';
 import Pedidos from './features/Pedidos/registros';
 import MeusServicos from './features/MeusServicos';
+import Cadastro from './Cadastro';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route path="/home" element={<Home />} />

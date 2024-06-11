@@ -25,3 +25,8 @@ export const store = configureStore({
     auth: authSlice.reducer,
   },
 });
+
+export const getUsuarioFromLocalStorage = () => {
+  const usuario = localStorage.getItem('usuario');
+  return usuario ? JSON.parse(usuario) : null;
+}

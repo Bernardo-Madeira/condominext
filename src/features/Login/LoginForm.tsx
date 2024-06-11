@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom"
 import { usuarioLogin } from "@/services/usuarioService"
 import { useDispatch } from "react-redux"
 import { login } from "@/store"
+import { useToast } from "@/components/ui/use-toast"
+import { Toaster } from "@/components/ui/toaster"
 
 
 export default function LoginForm() {
@@ -19,6 +21,7 @@ export default function LoginForm() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { toast } = useToast()
 
   const loginSchema = z.object({
     Email: z.string(),
@@ -41,12 +44,15 @@ export default function LoginForm() {
 
       const response = await usuarioLogin(data)
 
-      if (response.UsuarioID) {
+      if (response.usuario) {
         dispatch(login(response))
-        console.log(response)
+        localStorage.setItem('usuario', JSON.stringify(response))
         navigate('/home')
       } else {
-        alert(response.message)
+        toast({
+          title: response.message,
+          variant: 'destructive'
+        })
       }
     } catch (error: any) {
       alert(error.message)
@@ -57,49 +63,52 @@ export default function LoginForm() {
   }
 
   return (
-    <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-72">
-        <FormField
-          control={form.control}
-          name="Email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <>
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-72">
+          <FormField
+            control={form.control}
+            name="Email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input type="email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="Senha"
-          render={({ field }) => (
-            <FormItem className="mt-4">
-              <FormLabel>Senha</FormLabel>
-              <FormControl>
-                <div className="flex items-center gap-2">
-                  <Input type={passwordVisible ? 'text' : 'password'} {...field} />
-                  {passwordVisible ?
-                    <FaRegEyeSlash className="text-2xl cursor-pointer"
-                      onClick={() => setPasswordVisible(false)} />
-                    :
-                    <FaRegEye className="text-2xl cursor-pointer"
-                      onClick={() => setPasswordVisible(true)} />
-                  }
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="Senha"
+            render={({ field }) => (
+              <FormItem className="mt-4">
+                <FormLabel>Senha</FormLabel>
+                <FormControl>
+                  <div className="flex items-center gap-2">
+                    <Input type={passwordVisible ? 'text' : 'password'} {...field} />
+                    {passwordVisible ?
+                      <FaRegEyeSlash className="text-2xl cursor-pointer"
+                        onClick={() => setPasswordVisible(false)} />
+                      :
+                      <FaRegEye className="text-2xl cursor-pointer"
+                        onClick={() => setPasswordVisible(true)} />
+                    }
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <div className="text-center">
-          <Button disabled={loading} type="submit" className="px-12 mt-4 text-lg">Entrar</Button>
-        </div>
-      </form>
-    </FormProvider>
+          <div className="text-center">
+            <Button disabled={loading} type="submit" className="px-12 mt-4 text-lg">Entrar</Button>
+          </div>
+        </form>
+      </FormProvider>
+      <Toaster/>
+    </>
   )
 }

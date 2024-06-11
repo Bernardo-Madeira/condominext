@@ -7,6 +7,7 @@ import { FaSearch } from "react-icons/fa"
 import Loading from "@/components/Loading"
 import { servicoIndex } from "@/services/servicoService"
 
+
 export const StarRating = ({ rating, className = '' }: { rating: number, className: string }) => {
 
   const renderStar = (index: number) => {
@@ -41,9 +42,11 @@ export default function Home() {
   const [services, setServices] = useState<[]>([])
   const [loading, setLoading] = useState(false)
 
+  
+
   useEffect(() => {
     setLoading(true)
-    servicoIndex().then(res => setServices(res))
+    servicoIndex().then(res => console.log())
     setLoading(false)
   }, [])
 
@@ -63,7 +66,7 @@ export default function Home() {
           loading ?
             <div className="flex items-center justify-center w-full h-64"><Loading /></div>
             :
-            services && services.map(({ServicoID, Nome, Descricao, Bloco, Apartamento, TotalAvaliacoes, AvaliacaoMedia}, index) => (
+            services && services.map(({ServicoID, Nome, Descricao, PrestadorID, Media }, index) => (
 
               <Link key={index} to={`/servico/${ServicoID}`}>
 
@@ -75,11 +78,7 @@ export default function Home() {
 
                   <div className="flex items-center justify-between">
 
-                    <span className="font-bold font-Montserrat">{`BL ${Bloco}, APT ${Apartamento}`}</span>
-                    <div className="flex items-center gap-1">
-                      <span className="text-xl italic font-thin">{TotalAvaliacoes}</span>
-                      <StarRating rating={AvaliacaoMedia || 0} />
-                    </div>
+
 
                   </div>
 

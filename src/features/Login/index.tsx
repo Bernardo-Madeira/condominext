@@ -1,38 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import LoginForm from './LoginForm';
-import { usuarioLogin } from '@/services/usuarioService';
-import { login } from '@/store';
 
 export default function Login() {
-
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-
-  const handleLoginSubmit = async (data: any) => {
-
-    setLoading(true)
-
-    try {
-
-      const response = await usuarioLogin({ Email: "admin@admin.com", Senha: "admin" })
-
-      if (response.UsuarioID) {
-        dispatch(login(response.data))
-        navigate('/home')
-      } else {
-        alert("Usuário não encontrado")
-      }
-    } catch (error: any) {
-      alert(error.message)
-    } finally {
-      setLoading(false)
-    }
-
-  }
 
   return (
     <div className="grid min-h-screen grid-cols-12 bg-gray-950">

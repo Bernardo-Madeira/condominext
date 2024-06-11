@@ -16,7 +16,7 @@ export const usuarioIndex = async () => {
 }
 
 export const usuarioLogin = async (body: {Email: string, Senha: string}) => {
-  const response = await fetch(`${BASEURL}/usuario/login`, {
+  const response = await fetch(`${BASEURL}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -24,6 +24,7 @@ export const usuarioLogin = async (body: {Email: string, Senha: string}) => {
     body: JSON.stringify(body)
   })
   const result = await response.json()
+  console.log(result)
   return result
 }
 

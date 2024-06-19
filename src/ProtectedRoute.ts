@@ -16,7 +16,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     const usuarioData = getUsuarioFromLocalStorage();
     if (usuarioData && !userState) {
-      console.log(usuarioData)
       dispatch(login(usuarioData))
     }
   }, [userState, dispatch])
@@ -31,6 +30,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         dispatch(login(usuarioData))
       }
     }
+
   }, [userState, navigate])
 
   if (!userState) {

@@ -47,7 +47,24 @@ export default function LoginForm() {
       if (response.usuario) {
         dispatch(login(response))
         localStorage.setItem('usuario', JSON.stringify(response))
-        navigate('/home')
+        if(response.tipo == 'administrador'){
+          toast({
+            title:"Bem Vindo, Administrador!"
+          })
+          navigate('/moradores')
+        }
+        else if(response.tipo == 'morador'){
+          toast({
+            title:"Bem Vindo, Morador!"
+          })
+          navigate('/home')
+        }
+        else if(response.tipo == 'prestador'){
+          toast({
+            title:"Bem Vindo, Prestador!"
+          })
+          navigate('/meusServicos')
+        }
       } else {
         toast({
           title: response.message,

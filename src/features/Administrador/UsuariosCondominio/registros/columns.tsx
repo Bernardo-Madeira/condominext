@@ -12,10 +12,16 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { FaTrash } from "react-icons/fa"
-import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { usuarioType } from "@/types/usuarioType"
-import { usuarioDestroy } from "@/services/usuarioService"
+import { moradorDestroy } from "@/services/moradorService"
+import { toast, useToast } from "@/components/ui/use-toast"
+
+const handleDestroyMorador = async (MoradorID: string) => {
+
+  return await moradorDestroy(MoradorID)
+
+}
 
 
 export const columns: ColumnDef<usuarioType>[] = [
@@ -41,10 +47,9 @@ export const columns: ColumnDef<usuarioType>[] = [
     cell: ({ row }) => {
 
       const [open, setOpen] = useState(false)
+      const toaste = useToast()
 
       const { original } = row
-
-      const n = useNavigate()
 
       return (
         <div className="text-right">
@@ -58,9 +63,11 @@ export const columns: ColumnDef<usuarioType>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => { 
-                  console.log(original)
-                  usuarioDestroy(original.UsuarioID)
+                onClick={async() => { 
+                  const resp = await handleDestroyMorador(original.MoradorID)
+                  toast({
+                    description: resp.message
+                  })
                 }}
                 asChild
               >

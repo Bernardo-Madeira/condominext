@@ -32,14 +32,14 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="mt-8 border rounded-md text-gray-50 font-Roboto">
+    <div className="mt-8 border-2 rounded-md text-gray-50 font-Roboto">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className="font-bold text-gray-50 font-Montserrat">
+                  <TableHead key={header.id} className="font-bold text-center text-gray-900 font-Montserrat">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                Nenhum Registro Encontrado!
               </TableCell>
             </TableRow>
           )}

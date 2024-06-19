@@ -1,105 +1,115 @@
 import { ColumnDef } from "@tanstack/react-table"
-
 import { Button } from "@/components/ui/button"
-
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { FaEye, FaStar } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { useToast } from "@/components/ui/use-toast"
+import { pedidoUpdate } from "@/services/pedidoService"
 
+const handleUpdatePedido = async (PedidoID, Status) => {
+  const body = {
+    PedidoID,
+    Estado: Status
+  }
+  return await pedidoUpdate(body)
+}
 
 export const columns: ColumnDef[] = [
   {
-    accessorKey: "Nome",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          SERVIÇO
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      )
+    accessorKey: "ServicoNome",
+    header: () => {
+      return <p className="text-left">SERVIÇO</p>
     },
+    cell: ({ row }) => {
+      return <p className="text-left">{row.original.ServicoNome}</p>
+    }
   },
   {
-    accessorKey: "Categoria",
-    header: "CATEGORIA"
+    accessorKey: "MoradorEmail",
+    header: "MORADOR - EMAIL"
+  },
+  {
+    accessorKey: "MoradorTelefone",
+    header: "MORADOR - TELEFONE"
   },
   {
     accessorKey: "Status",
-    header: "STATUS"
+    header: "STATUS",
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.Estado}
+        </div>
+      )
+    }
   },
   {
-    accessorKey: "DataCriacao",
-    header: "CRIAÇÃO",
+    accessorKey: "DataPedido",
+    header: "DATA PEDIDO",
     cell: ({ row }) => {
       const { original } = row
-      const data = new Date(original.DataCriacao)
-      // Extrair o dia, mês e ano
+      const data = new Date(original.DataPedido)
       const dia = data.getUTCDate();
       const mes = data.getUTCMonth() + 1;
       const ano = data.getUTCFullYear();
-
       const dataFormatada = `${dia < 10 ? '0' : ''}${dia}/${mes < 10 ? '0' : ''}${mes}/${ano}`
-
       return dataFormatada
     }
-
   },
   {
     accessorKey: "actions",
     header: () => <div className="text-right">Ações</div>,
     cell: ({ row }) => {
-
       const [open, setOpen] = useState(false)
-
+      const { toast } = useToast()
       const { original } = row
+      const navigate = useNavigate()
+      const [updateCounter, setUpdateCounter] = useState(0); // Estado para forçar re-renderização
 
-      const n = useNavigate()
-
-      return (
-        <div className="text-right">
-          <DropdownMenu open={open} onOpenChange={setOpen}>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="w-8 h-8 p-0">
-                <span className="sr-only">Abrir menu</span>
-                <MoreHorizontal className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => {
-                  n(`/servico/${original.ServicoID}`)
-                }}
-                asChild
-              >
-                <Button variant={'ghost'} className="w-full"><FaEye className="mr-2" />Abrir</Button>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => {
-                  /* Abrir modal para avaliar */
-                  /* Verificar se já não foi avaliado */
-                }}
-                asChild
-              >
-                <Button variant={'ghost'} className="w-full"><FaStar className="mr-2" />Avaliar</Button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      )
+      if(original.Estado != 'Concluído'){
+        return (
+          <div className="text-right">
+            <DropdownMenu open={open} onOpenChange={setOpen}>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="w-8 h-8 p-0">
+                  <span className="sr-only">Abrir menu</span>
+                  <MoreHorizontal className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  asChild
+                >
+                  {
+                    original.Estado == "Pendente" ?
+                    <Button variant={'ghost'} className="w-full font-Montserrat" onClick={async() => {
+                      const res = await handleUpdatePedido(original.PedidoID, "Execução")
+                      toast({
+                        description: res.message
+                      })
+                      setUpdateCounter(prev => prev + 1); // Atualiza o estado para forçar a re-renderização
+                    }}>Executar</Button>
+                    : original.Estado == 'Execução' ?
+                    <Button variant={'ghost'} className="w-full font-Montserrat" onClick={async() => {
+                      const res = await handleUpdatePedido(original.PedidoID, "Concluído")
+                      toast({
+                        description: res.message
+                      })
+                      setUpdateCounter(prev => prev + 1); // Atualiza o estado para forçar a re-renderização
+                    }}>Concluir</Button>
+                    : ""
+                  }
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )
+      } else {
+        return <p></p>
+      }
     }
   }
 ]

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { DataTable } from "@/components/DataTAble";
+import { DataTable } from "@/components/DataTable";
 import { columns } from "./columns";
 import Loading from "@/components/Loading";
-import { pedidoIndex } from "@/services/pedidoService";
 import { useSelector } from "react-redux";
+import { getPedidos } from "@/services/prestadorService";
 
 
 export default function Pedidos() {
@@ -12,9 +12,13 @@ export default function Pedidos() {
   const [loading, setLoading] = useState(false)
 
   const Usuario = useSelector((state: any) => state.auth.user)
-
+ 
   useEffect(() => {
-    pedidoIndex(Usuario.UsuarioID).then(res => setPedidos(res))
+    getPedidos(Usuario.usuario.PrestadorID).then(res => {
+      console.log(res)
+      setPedidos(res)
+    })
+ 
   }, [])
 
 

@@ -98,48 +98,6 @@ export default function CriarServicoForm() {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name=""
-            render={({ field }) => (
-              <FormItem className="col-span-4">
-                <FormLabel className=" text-gray-50">Unidade</FormLabel>
-                <FormControl>
-                  <Input disabled={true} value={`BLC ${Usuario.Bloco}, APT ${Usuario.Apartamento}`} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name=""
-            render={({ field }) => (
-              <FormItem className="col-span-4">
-                <FormLabel className=" text-gray-50">Telefone</FormLabel>
-                <FormControl>
-                  <Input placeholder={Usuario.Telefone} disabled={true} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name=""
-            render={({ field }) => (
-              <FormItem className="col-span-4">
-                <FormLabel className=" text-gray-50">Email</FormLabel>
-                <FormControl>
-                  <Input placeholder={Usuario.Email} disabled={true} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
         </div>
 
         {/* DESCRIÇÃO */}

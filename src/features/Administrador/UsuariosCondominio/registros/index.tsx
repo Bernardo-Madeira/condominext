@@ -1,7 +1,7 @@
-import { DataTable } from "@/components/DataTable";
-import { useEffect, useState } from "react";
-import { columns } from "./columns";
-import { moradorIndex } from "@/services/moradorService";
+import { DataTable } from "@/components/DataTable"
+import { useEffect, useState } from "react"
+import { columns } from "./columns"
+import { moradorIndex } from "@/services/moradorService"
 
 export default function UsuariosCondominio() {
 

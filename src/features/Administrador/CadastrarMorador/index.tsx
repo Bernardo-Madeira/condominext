@@ -1,4 +1,4 @@
-import FormAddMorador from "./FormAddMorador";
+import FormAddMorador from "./FormAddMorador"
 
 export default function CadastrarMorador() {
   return (

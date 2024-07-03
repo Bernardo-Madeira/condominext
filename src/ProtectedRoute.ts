@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   useEffect(() => {
 
-    const usuarioData = getUsuarioFromLocalStorage();
+    const usuarioData = getUsuarioFromLocalStorage()
     if (usuarioData && !userState) {
       dispatch(login(usuarioData))
     }
@@ -22,9 +22,9 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   useEffect(() => {
     if (!userState) {
-      const usuarioData = getUsuarioFromLocalStorage();
+      const usuarioData = getUsuarioFromLocalStorage()
       if (!usuarioData) {
-        navigate('/login');
+        navigate('/login')
       }
       else {
         dispatch(login(usuarioData))
@@ -34,10 +34,10 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }, [userState, navigate])
 
   if (!userState) {
-    return null;
+    return null
   }
 
-  return children;
+  return children
 }
 
-export default ProtectedRoute;
+export default ProtectedRoute

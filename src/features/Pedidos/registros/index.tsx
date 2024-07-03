@@ -15,7 +15,6 @@ export default function Pedidos() {
  
   useEffect(() => {
     getPedidos(Usuario.usuario.PrestadorID).then(res => {
-      console.log(res)
       setPedidos(res)
     })
  

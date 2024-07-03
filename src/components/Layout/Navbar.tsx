@@ -1,16 +1,16 @@
 
 // Icones
-import { FaUser } from "react-icons/fa";
-import { FaCartShopping, FaPersonDigging } from "react-icons/fa6";
-import { IoAdd } from "react-icons/io5";
-import { MdDesignServices } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
-import { FaUsers } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { FaPowerOff } from "react-icons/fa";
-import { AiFillBell } from "react-icons/ai";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { useState } from "react";
+import { FaUser } from "react-icons/fa"
+import { FaCartShopping, FaPersonDigging } from "react-icons/fa6"
+import { IoAdd } from "react-icons/io5"
+import { MdDesignServices } from "react-icons/md"
+import { Link, useNavigate } from "react-router-dom"
+import { FaUsers } from "react-icons/fa"
+import { useSelector } from "react-redux"
+import { FaPowerOff } from "react-icons/fa"
+import { AiFillBell } from "react-icons/ai"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { useState } from "react"
 
 export default function Navbar() {
 
@@ -34,7 +34,10 @@ export default function Navbar() {
         <span className="text-2xl">{usuario.Usuario}</span>
         {
           (tipo == 'morador' && usuario.PrestadorID) &&
-          <Select defaultValue="morador" onValueChange={(e) => setOpcaoSelect(e)}>
+          <Select defaultValue="morador" onValueChange={(e) => {
+            setOpcaoSelect(e)
+            e == 'morador' ? n('/home') : n('/meusServicos')
+          }}>
             <SelectTrigger className="text-lg bg-gray-500 border-0">
               <SelectValue></SelectValue>
             </SelectTrigger>

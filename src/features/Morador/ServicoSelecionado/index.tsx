@@ -1,14 +1,14 @@
-import Loading from "@/components/Loading";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { pedidoStore } from "@/services/pedidoService";
-import { servicoShow } from "@/services/servicoService";
-import { useEffect, useState } from "react";
-import { FaPhoneAlt, FaUser } from "react-icons/fa";
-import { IoLogoWhatsapp, IoMdMail } from "react-icons/io";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { StarRating } from "../Home";
+import Loading from "@/components/Loading"
+import { Button } from "@/components/ui/button"
+import { useToast } from "@/components/ui/use-toast"
+import { pedidoStore } from "@/services/pedidoService"
+import { servicoShow } from "@/services/servicoService"
+import { useEffect, useState } from "react"
+import { FaPhoneAlt, FaUser } from "react-icons/fa"
+import { IoLogoWhatsapp, IoMdMail } from "react-icons/io"
+import { useSelector } from "react-redux"
+import { useNavigate, useParams } from "react-router-dom"
+import { StarRating } from "../Home"
 
 
 export default function ServicoSelecionado() {
@@ -23,7 +23,7 @@ export default function ServicoSelecionado() {
 
   useEffect(() => {
     setLoading(true)
-    servicoShow(ServicoID).then(res => { console.log(res); setServico(res) })
+    servicoShow(ServicoID).then(res => { setServico(res) })
     setLoading(false)
   }, [])
 
@@ -42,7 +42,7 @@ export default function ServicoSelecionado() {
       })
       setTimeout(() => {
         navigate('/home')
-      }, 3000);
+      }, 3000)
     }
     catch (e) {
       toast({
@@ -58,7 +58,7 @@ export default function ServicoSelecionado() {
   }
 
   if (!servico) {
-    return <div className="p-12"><p className="text-gray-50">Serviço não encontrado.</p></div>;
+    return <div className="p-12"><p className="text-gray-50">Serviço não encontrado.</p></div>
   }
 
   return (

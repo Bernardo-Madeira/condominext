@@ -48,10 +48,8 @@ export default function CriarServicoForm({setModalIsOpen}) {
     }
 
     try {
-      console.log(servico)
 
       const response = await servicoStore(servico)
-      console.log(response)
 
       if (response.ServicoID) {
         toast({

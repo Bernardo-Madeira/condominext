@@ -39,13 +39,10 @@ export default function FormAvaliacao() {
 
   const onSubmit = async (data: z.infer<typeof avaliarPedidoSchema>) => {
 
-    console.log(data)
-
     setLoading(true)
 
     try {
       const response = await avaliacaoStore(data)
-      console.log(response)
       setLoading(false)
 
       if (response.AvaliacaoID) {

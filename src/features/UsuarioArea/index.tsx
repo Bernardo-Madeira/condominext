@@ -55,7 +55,6 @@ export default function UsuarioArea() {
 
       if (response.message) {
         usuarioShow(Usuario.UsuarioID).then((res) => {
-          console.log(res)
           dispatch(login(res))
           navigate('/home')
         })

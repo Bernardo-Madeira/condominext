@@ -54,9 +54,17 @@ export default function LoginForm() {
           navigate('/moradores')
         }
         else if(response.tipo == 'morador'){
-          toast({
-            title:"Bem Vindo, Morador!"
-          })
+          if(response.avaliacaoPendente > 0){
+            toast({
+              title: "Serviço concluído",
+              description: `Você possui ${response.avaliacaoPendente} pedido(s) para avaliar`
+            })
+          }
+          else{
+            toast({
+              title:"Bem Vindo, Morador!"
+            })
+          }
           navigate('/home')
         }
         else if(response.tipo == 'prestador'){

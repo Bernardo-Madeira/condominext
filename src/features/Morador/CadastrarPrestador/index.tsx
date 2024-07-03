@@ -25,8 +25,6 @@ export default function CadastrarPrestador() {
 
   const cadastrarComMorador = async () => {
 
-    console.log(Usuario.usuario)
-
     if (Usuario.usuario.PrestadorID) {
       toast({
         description: "Você já possuí uma conta de prestador associada",
@@ -47,7 +45,6 @@ export default function CadastrarPrestador() {
         else {
 
           const responseLogin = await usuarioLogin({ Email: Usuario.usuario.Email, Senha: Usuario.usuario.Senha })
-          console.log(responseLogin)
           if (responseLogin.usuario) {
             dispatch(login(responseLogin))
             localStorage.setItem('usuario', JSON.stringify(responseLogin))

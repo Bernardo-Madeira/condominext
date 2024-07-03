@@ -1,59 +1,57 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { IoIosStarOutline, IoIosStarHalf, IoIosStar } from "react-icons/io";
-import Loading from "@/components/Loading";
-import { getAllServicos } from "@/services/servicoService";
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import { IoIosStarOutline, IoIosStarHalf, IoIosStar } from "react-icons/io"
+import Loading from "@/components/Loading"
+import { getAllServicos } from "@/services/servicoService"
 
 export const StarRating = ({ rating, className = '' }: { rating: number, className: string }) => {
 
   const renderStar = (index: number) => {
     if (rating >= index + 1) {
-      return <IoIosStar key={index} className={className} />;
+      return <IoIosStar key={index} className={className} />
     } else if (rating > index && rating < index + 1) {
       if (rating - index >= 0.75) {
-        return <IoIosStar key={index} className={className} />;
+        return <IoIosStar key={index} className={className} />
       } else if (rating - index >= 0.25) {
-        return <IoIosStarHalf key={index} className={className} />;
+        return <IoIosStarHalf key={index} className={className} />
       }
     }
-    return <IoIosStarOutline key={index} className={className} />;
-  };
+    return <IoIosStarOutline key={index} className={className} />
+  }
 
   return (
     <div className="flex items-center">
       {[0, 1, 2, 3, 4].map((index) => renderStar(index))}
     </div>
-  );
-};
+  )
+}
 
 export default function Home() {
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [services, setServices] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(true)
     getAllServicos()
       .then((res) => {
-        setServices(res);
-        setLoading(false);
-        console.log(services)
+        setServices(res)
+        setLoading(false)
       })
       .catch((error) => {
-        console.error("Error fetching services:", error);
-        setLoading(false);
+        setLoading(false)
       })
   }, [])
 
   // Function to handle input change and update searchQuery state
   const handleSearchInputChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
+    setSearchQuery(e.target.value)
+  }
 
   // Filtered services based on searchQuery
   const filteredServices = services.filter((service) =>
     service.Nome.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  )
 
   return (
     <div className="flex flex-col items-center p-12">
@@ -77,7 +75,7 @@ export default function Home() {
             <span className="mt-4 text-xl italic text-gray-400">Sem serviços disponíveis.</span>
           </div>
         ) : (
-          filteredServices.map(({ ServicoID, Nome, Descricao, Media, Categoria }, index) => (
+          filteredServices.map(({ ServicoID, Nome, Descricao, MediaAvaliacoes, Categoria }, index) => (
             <Link key={index} to={`/servico/${ServicoID}`}>
               <div
                 key={index}
@@ -92,8 +90,8 @@ export default function Home() {
                 </p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <StarRating rating={Media || 0} />
-                    <span className="text-xl font-thin">{Media}</span>
+                    <StarRating rating={MediaAvaliacoes || 0} />
+                    <span className="text-xl font-thin">{MediaAvaliacoes || 0}</span>
                   </div>
                   <div className="flex items-center px-2 py-1 bg-gray-900 rounded-full">
                   <span className="text-xs italic font-bold text-gray-50 font-Montserrat">
@@ -107,5 +105,5 @@ export default function Home() {
         )}
       </div>
     </div>
-  );
+  )
 }

@@ -43,7 +43,6 @@ export default function FormAddMorador() {
   })
 
   const onSubmit = async (data: z.infer<typeof addMoradorSchema>) => {
-    console.log(data)
 
     if(data.Senha != data.ConfirmarSenha){
       toast({

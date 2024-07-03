@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosStarOutline, IoIosStarHalf, IoIosStar } from "react-icons/io";
-import { FaSearch } from "react-icons/fa";
 import Loading from "@/components/Loading";
 import { getAllServicos } from "@/services/servicoService";
 

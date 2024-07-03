@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
 import { maskPhoneNumber } from "@/lib/masks"
-import { moradorStore } from "@/services/moradorService"
 import { prestadorStore } from "@/services/prestadorService"
+import { usuarioLogin } from "@/services/usuarioService"
+import { login } from "@/store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { z } from "zod"
 
@@ -18,6 +19,55 @@ export default function CadastrarPrestador() {
   const navigate = useNavigate()
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
+
+  const Usuario = useSelector((state: any) => state.auth.user)
+  const dispatch = useDispatch()
+
+  const cadastrarComMorador = async () => {
+
+    console.log(Usuario.usuario)
+
+    if (Usuario.usuario.PrestadorID) {
+      toast({
+        description: "Você já possuí uma conta de prestador associada",
+        variant: "destructive"
+      })
+    }
+    else {
+
+      try {
+        const response = await prestadorStore(Usuario.usuario)
+        if (response.message) {
+          toast({
+            title: "Erro ao cadastrar prestador",
+            description: response.message,
+            variant: "destructive"
+          })
+        }
+        else {
+
+          const responseLogin = await usuarioLogin({ Email: Usuario.usuario.Email, Senha: Usuario.usuario.Senha })
+          console.log(responseLogin)
+          if (responseLogin.usuario) {
+            dispatch(login(responseLogin))
+            localStorage.setItem('usuario', JSON.stringify(responseLogin))
+          }
+
+          toast({
+            title: "Prestador cadastrado com sucesso!",
+            description: "Redirecionamento automático em 2 segundos",
+          })
+          setTimeout(() => {
+            navigate('/home')
+          }, 2000)
+        }
+      }
+      catch (e) {
+        console.log()
+      }
+
+    }
+  }
 
   const addPrestadorSchema = z.object({
     Email: z.string().min(1, { message: "(Campo obrigatório)" }),
@@ -33,8 +83,6 @@ export default function CadastrarPrestador() {
       Email: '',
       Senha: '',
       ConfirmarSenha: '',
-      Bloco: '',
-      Apartamento: '',
       Usuario: '',
       Telefone: ''
     },
@@ -48,18 +96,18 @@ export default function CadastrarPrestador() {
         variant: 'destructive'
       })
     }
-    
+
     else {
-      try{
+      try {
         const response = await prestadorStore(data)
-        if(response.message){
+        if (response.message) {
           toast({
             title: "Erro ao cadastrar prestador",
             description: response.message,
             variant: "destructive"
           })
         }
-        else{
+        else {
           toast({
             title: "Prestador cadastrado com sucesso!",
             description: "Redirecionamento automático em 3 segundos",
@@ -69,8 +117,8 @@ export default function CadastrarPrestador() {
           }, 3000);
         }
       }
-      catch(e){
-        console.log(e)
+      catch (e) {
+        console.log()
       }
     }
 
@@ -81,7 +129,7 @@ export default function CadastrarPrestador() {
 
       <FormProvider {...form}>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-[26rem] h-[44rem] rounded shadow-sm flex shadow-gray-900">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-[26rem] h-[46rem] rounded shadow-sm flex shadow-gray-900">
 
           <div className="px-12 bg-gray-800 shadow-sm shadow-gray-800">
 
@@ -184,12 +232,17 @@ export default function CadastrarPrestador() {
                 )}
               />
 
+              <p className="p-1 text-center text-white transition-colors bg-gray-900 rounded cursor-pointer font-Montserrat hover:text-gray-900 hover:bg-gray-50"
+                onClick={() => cadastrarComMorador()}
+              >Cadastrar utilizando meus dados
+              </p>
+
               <div className="text-center">
                 <Button
                   disabled={loading}
                   variant={"secondary"}
                   type="submit"
-                  className="px-8 mt-4 text-lg">Cadastrar</Button>
+                  className="px-8 text-lg">Cadastrar</Button>
               </div>
 
             </div>

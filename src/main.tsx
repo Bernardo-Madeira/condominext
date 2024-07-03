@@ -19,7 +19,7 @@ import Cadastro from './Cadastro';
 import CadastrarMorador from './features/Administrador/CadastrarMorador';
 import MoradoresCondominio from './features/Administrador/UsuariosCondominio/registros';
 import { Toaster } from "@/components/ui/toaster"
-import CadastrarPrestador from './features/Morador/CadastrarMorador';
+import CadastrarPrestador from './features/Morador/CadastrarPrestador';
 import SolicitacoesCadastroPrestador from './features/Administrador/SolicitacoesCadastroPrestador';
 import PedidosMorador from './features/Morador/PedidosMorador';
 

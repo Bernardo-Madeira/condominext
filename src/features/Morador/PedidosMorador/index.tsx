@@ -1,35 +1,40 @@
-import { DataTable } from "@/components/DataTable";
-import { pedidoIndex } from "@/services/pedidoService";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { columns } from "./column";
-import { useParams } from "react-router-dom";
-import { IoClose } from "react-icons/io5";
-import Loading from "@/components/Loading";
-import FormAvaliacao from "./FormAvaliacao";
+import { DataTable } from "@/components/DataTable"
+import Loading from "@/components/Loading"
+import { pedidoIndex } from "@/services/pedidoService"
+import { useEffect, useState } from "react"
+import { IoClose } from "react-icons/io5"
+import { useSelector } from "react-redux"
+import { useNavigate, useParams } from "react-router-dom"
+import FormAvaliacao from "./FormAvaliacao"
+import { columns } from "./column"
 
 export default function PedidosMorador() {
-  const [pedidos, setPedidos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const Usuario = useSelector((state) => state.auth.user);
-  const { PedidoID } = useParams<{ PedidoID: string }>();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [pedidos, setPedidos] = useState([])
+  const [loading, setLoading] = useState(false)
+  const Usuario = useSelector((state: any) => state.auth.user)
+  const { PedidoID } = useParams<{ PedidoID: string }>()
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (PedidoID) {
-      setModalIsOpen(true);
+      setModalIsOpen(true)
     } else {
-      setModalIsOpen(false);
+      setModalIsOpen(false)
     }
-  }, [PedidoID]);
+  }, [PedidoID])
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(true)
     pedidoIndex(Usuario?.usuario?.MoradorID).then((res) => {
-      setPedidos(res);
-      setLoading(false);
-    });
-  }, [Usuario?.usuario?.MoradorID]);
+      setPedidos(res)
+      setLoading(false)
+    })
+  }, [Usuario?.usuario?.MoradorID, modalIsOpen])
+
+  const onSubmit = () => {
+    
+  }
 
   return (
     <div className="relative h-full">
@@ -40,10 +45,10 @@ export default function PedidosMorador() {
         >
           <IoClose
             className="absolute text-5xl cursor-pointer top-2 right-2 text-gray-50"
-            onClick={() => setModalIsOpen(false)}
+            onClick={() => navigate(-1)}
           />
-          <div className="p-6 rounded bg-gray-50 w-[32rem] h-96 shadow shadow-gray-400">
-            <FormAvaliacao />
+          <div className="p-6 rounded bg-gray-50 w-[34rem] h-96 shadow shadow-gray-400">
+            <FormAvaliacao onSubmit={onSubmit} />
           </div>
         </div>
       )}
@@ -62,5 +67,5 @@ export default function PedidosMorador() {
         )}
       </div>
     </div>
-  );
+  )
 }

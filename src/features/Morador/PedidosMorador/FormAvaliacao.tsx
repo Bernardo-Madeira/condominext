@@ -1,68 +1,60 @@
 import { Button } from "@/components/ui/button"
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+import { useToast } from "@/components/ui/use-toast"
+import { avaliacaoStore } from "@/services/avaliacaoService"
 import { servicoStore } from "@/services/servicoService"
-import { categoriasServico } from "@/utils/options"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { useSelector } from "react-redux"
+import { useNavigate, useParams } from "react-router-dom"
 import { z } from "zod"
-import { useToast } from "@/components/ui/use-toast";
-import { Toaster } from "@/components/ui/toaster";
-
 
 export default function FormAvaliacao() {
-
   const [loading, setLoading] = useState(false)
-
   const Usuario = useSelector((state: any) => state.auth.user)
+  const navigate = useNavigate()
+  const { PedidoID } = useParams()
   const { toast } = useToast()
 
-  const criarServicoSchema = z.object({
-    PedidoID: z.string(),
-    MoradorID: z.string(),
-    Nota: z.number().min(1, { message: "Campo obrigatório" }),
-    Descricao: z.string().max(255, {
-      message: "O tamanho máximo da descrição é de 255 caracteres"
-    })
+  const avaliarPedidoSchema = z.object({
+    PedidoID: z.number(),
+    MoradorID: z.number(),
+    Nota: z.number(),
+    Descricao: z.string(),
   })
 
-  const form = useForm<z.infer<typeof criarServicoSchema>>({
-    resolver: zodResolver(criarServicoSchema),
+  const [nota, setNota] = useState(0)
+  const [descricao, setDescricao] = useState("Péssimo")
+
+  const form = useForm<z.infer<typeof avaliarPedidoSchema>>({
+    resolver: zodResolver(avaliarPedidoSchema),
     defaultValues: {
-      PedidoID: "",
-      MoradorID: "",
-      Nota: "",
-      Descricao: ""
+      PedidoID: parseInt(PedidoID!),
+      MoradorID: Usuario.usuario.MoradorID,
+      Nota: 0,
+      Descricao: "Péssimo",
     },
   })
 
-  const onSubmit = async (data: z.infer<typeof criarServicoSchema>) => {
+  const onSubmit = async (data: z.infer<typeof avaliarPedidoSchema>) => {
+
+    console.log(data)
 
     setLoading(true)
 
-    const servico = {
-      ...data,
-      PrestadorID: Usuario.usuario.PrestadorID
-    }
-
     try {
-      console.log(servico)
-
-      const response = await servicoStore(servico)
+      const response = await avaliacaoStore(data)
       console.log(response)
+      setLoading(false)
 
-      if (response.ServicoID) {
-        toast({
-          description: "Serviço cadastrado com sucesso!"
-        })
-        setModalIsOpen(false)
+      if (response.AvaliacaoID) {
+        navigate(-1)
       } else {
         toast({
-          description: response.message
+          title: "Erro",
+          description: "Falha ao avaliar pedido. Tente novamente mais tarde.",
+          variant: "destructive"
         })
       }
     } catch (error: any) {
@@ -70,87 +62,96 @@ export default function FormAvaliacao() {
     } finally {
       setLoading(false)
     }
+  }
 
+  const handleNota = (index: number, checked: boolean) => {
+    const newNota = checked ? nota + 1 : nota - 1
+    setNota(newNota)
+
+    const avaliacoes = [
+      "Péssimo",
+      "Ruim",
+      "Regular",
+      "Bom",
+      "Ótimo",
+      "Excelente",
+    ]
+    setDescricao(avaliacoes[newNota])
+    form.setValue("Descricao", avaliacoes[newNota])
+    form.setValue("Nota", newNota)
   }
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} >
-
-        <div className="grid grid-cols-12 col-span-12 gap-6 py-4">
-
-          {/* NOME */}
-          <FormField
-            control={form.control}
-            name="Nome"
-            render={({ field }) => (
-              <FormItem className="col-span-6">
-                <FormLabel >Nome do Serviço</FormLabel>
-                <FormControl>
-                  <Input {...field} variant="secondary" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* CATEGORIA */}
-          <FormField
-            control={form.control}
-            name="Categoria"
-            render={({ field }) => (
-              <FormItem className="col-span-6">
-                <FormLabel >Categoria do Serviço</FormLabel>
-                <FormControl>
-                  <Select onValueChange={(e) => form.setValue("Categoria", e)}>
-                    <SelectTrigger className="bg-gray-800 text-gray-50">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {
-                          categoriasServico.map((c, index) => (
-                            <SelectItem key={index} value={c}>{c}</SelectItem>
-                          ))
-                        }
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="mb-8 text-center">
+          <span className="text-4xl text-center font-Montserrat">
+            Avaliação
+          </span>
         </div>
 
-        {/* DESCRIÇÃO */}
-        <FormField
-          control={form.control}
-          name="Descricao"
-          render={({ field }) => (
-            <FormItem >
-              <div className="flex items-center gap-1 font-bold font-Roboto">
-                <FormLabel className="font-bold">Descrição do Serviço</FormLabel>
-                <span className="text-sm">({255 - field.value.length})</span>
-              </div>
-              <FormControl>
-                <Textarea {...field} className="bg-gray-900 resize-none min-h-32 text-gray-50" maxLength={255} />
-              </FormControl>
+        <div className="flex flex-col gap-2 mb-4">
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              onChange={(e) => handleNota(0, e.target.checked)}
+            />
+            <span>O serviço foi concluído conforme o combinado</span>
+          </div>
 
-            </FormItem>
-          )}
-        />
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              onChange={(e) => handleNota(1, e.target.checked)}
+            />
+            <span>Prestador demonstrou profissionalismo durante todo o processo</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              onChange={(e) => handleNota(2, e.target.checked)}
+            />
+            <span>Recebi todas as informações necessárias sobre o serviço</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              onChange={(e) => handleNota(3, e.target.checked)}
+            />
+            <span>Qualidade do serviço atendeu às expectativas</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              onChange={(e) => handleNota(4, e.target.checked)}
+            />
+            <span>Facilidade de comunicação com o prestador do serviço</span>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <Input
+            className="w-64"
+            variant="secondary"
+            placeholder="Digite sua descrição..."
+            value={descricao}
+            onChange={(e) => {setDescricao(e.target.value); form.setValue("Descricao", e.target.value)}}
+          />
+        </div>
 
         <div className="flex items-center justify-center w-full text-center">
-          <Button type="submit"
+          <Button
+            type="submit"
             disabled={loading}
-            className="px-12 mt-4 text-lg"
-          >Criar</Button>
+            className="px-10 mt-4 text-lg"
+          >
+            Avaliar
+          </Button>
         </div>
-          
       </form>
     </FormProvider>
   )
-
 }

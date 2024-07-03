@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { StarRating } from "../Home";
-import { IoMdMail } from "react-icons/io";
-import { FaPhoneAlt, FaUser } from "react-icons/fa";
-import { FaHouse } from "react-icons/fa6";
 import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
-import { servicoShow } from "@/services/servicoService";
-import { Input } from "@/components/ui/input";
-import { useSelector } from "react-redux";
+import { useToast } from "@/components/ui/use-toast";
 import { pedidoStore } from "@/services/pedidoService";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { servicoShow } from "@/services/servicoService";
+import { useEffect, useState } from "react";
+import { FaPhoneAlt, FaUser } from "react-icons/fa";
+import { IoLogoWhatsapp, IoMdMail } from "react-icons/io";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { StarRating } from "../Home";
 
 
 export default function ServicoSelecionado() {
@@ -21,7 +19,7 @@ export default function ServicoSelecionado() {
   const { ServicoID } = useParams<{ ServicoID: string }>()
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
-  const {toast} = useToast()
+  const { toast } = useToast()
 
   useEffect(() => {
     setLoading(true)
@@ -36,7 +34,7 @@ export default function ServicoSelecionado() {
       ServicoID: ServicoID,
     }
 
-    try{
+    try {
       const resp = await pedidoStore(data)
       toast({
         title: "Solicitação realizada com sucesso!",
@@ -46,7 +44,7 @@ export default function ServicoSelecionado() {
         navigate('/home')
       }, 3000);
     }
-    catch(e){
+    catch (e) {
       toast({
         title: "Erro ao solicitar serviço",
         variant: "destructive"
@@ -73,7 +71,7 @@ export default function ServicoSelecionado() {
 
       <div className="flex items-center gap-2 mt-4">
         {/* <StarRating rating={servico || 0} className="text-3xl text-gray-50" /> */}
-        <span className="text-xl italic font-thin text-gray-50">{servico.servico.Media} Avaliações</span>
+        <span className="text-xl italic font-thin text-gray-50">{servico.avaliacoes.length} Avaliações</span>
       </div>
 
       <div className="grid grid-cols-12 gap-12 mt-12">
@@ -117,21 +115,20 @@ export default function ServicoSelecionado() {
         <hr />
 
         <div className="flex flex-col gap-16 pb-24 mt-12">
-
           {servico.avaliacoes.length > 0 ?
             servico.avaliacoes.map((avaliacao: any, index: number) => (
               <div key={index} className=" text-gray-50">
 
-                <span className="text-2xl font-thin font-Montserrat">{avaliacao.Unidade}</span>
+                <span className="text-2xl font-thin font-Montserrat">{avaliacao.Usuario}</span>
 
                 <div className="flex items-center gap-2">
-                  <StarRating rating={servico.servico.Media} className="text-2xl text-gray-400" />
-                  <span className="text-xl font-bold">{avaliacao.Categoria}</span>
+                  <StarRating rating={avaliacao.Nota} className="text-2xl text-gray-400" />
+                  <span className="text-xl font-bold">{avaliacao.Descricao}</span>
                 </div>
 
-                <span className="italic text-gray-500">{avaliacao.DataRegistro}</span>
+                {/* <span className="italic text-gray-500">{avaliacao.DataRegistro}</span> */}
 
-                <p className="w-64 text-justify">{avaliacao.Comentario}</p>
+                {/* <p className="w-64 text-justify">{avaliacao.Comentario}</p> */}
 
               </div>
             ))
@@ -142,6 +139,13 @@ export default function ServicoSelecionado() {
         </div>
 
       </div>
+
+      {
+        servico.prestador.Telefone &&
+        <a href={`https://api.whatsapp.com/send?phone=+55${servico.prestador.Telefone.replace("(", '').replace(")", "")}`} target="_blank">
+          <IoLogoWhatsapp className="fixed text-6xl text-white transition-colors cursor-pointer right-12 bottom-24 hover:text-emerald-700" />
+        </a>
+      }
 
     </div>
   )
